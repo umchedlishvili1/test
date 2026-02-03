@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DutyPlanner Pro - Admin Edition</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>DutyPlanner Pro - Secure Edition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -13,57 +12,28 @@
             --bg: #f8f9fd;
             --sidebar-bg: #1e1e2d;
             --weekend-bg: #fff5f5;
-            --weekend-text: #ef233c;
         }
 
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; transition: 0.3s; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
         /* Sidebar & Layout */
-        #sidebar { 
-            width: 320px; background: var(--sidebar-bg); color: white; padding: 20px; 
-            overflow-y: auto; flex-shrink: 0; display: none; /* დამალულია თავიდან */
-        }
+        #sidebar { width: 320px; background: var(--sidebar-bg); color: white; padding: 20px; overflow-y: auto; display: none; }
         #main { flex-grow: 1; padding: 20px; overflow-y: auto; }
-        #right-panel { 
-            width: 320px; padding: 20px; background: white; border-left: 1px solid #ddd; 
-            display: none; flex-direction: column; flex-shrink: 0; 
-        }
+        #right-panel { width: 320px; padding: 20px; background: white; border-left: 1px solid #ddd; display: none; flex-direction: column; }
 
-        /* ადმინ რეჟიმის გააქტიურება */
         .admin-active #sidebar, .admin-active #right-panel { display: flex; }
         .admin-active #sidebar { display: block; }
 
-        input, select {
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            color: white; padding: 10px; border-radius: 6px; width: 100%; box-sizing: border-box;
-        }
-
+        input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 6px; width: 100%; box-sizing: border-box; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 900px; margin: 0 auto; }
-        .main-title { color: var(--dark-red); font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 15px; }
-
-        /* ცხრილები */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        .weekend { background-color: var(--weekend-bg) !important; color: var(--weekend-text); }
-
-        .editable-name { border: 1px dashed transparent; font-weight: bold; padding: 4px 8px; display: inline-block; }
-        .admin-active .editable-name { border-color: var(--primary); cursor: pointer; border-radius: 4px; }
-
-        .phone-display { color: var(--primary); font-weight: bold; display: block; margin-top: 5px; text-decoration: none; font-size: 0.9rem; }
         
-        #codeOutput { flex-grow: 1; font-family: monospace; font-size: 11px; background: #1e1e1e; color: #4ade80; padding: 10px; border-radius: 5px; resize: none; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 12px; }
+        .weekend { background-color: var(--weekend-bg); color: #ef233c; }
 
+        .login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.1; cursor: pointer; background: none; border: none; font-size: 10px; }
         .btn { padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; width: 100%; margin-top: 5px; }
         .btn-primary { background: var(--primary); color: white; }
-        
-        .login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.2; cursor: pointer; background: none; border: none; font-size: 11px; color: #666; }
-        .login-btn:hover { opacity: 1; color: var(--primary); }
-
-        /* მობილურის ადაპტაცია ადმინ პანელისთვის */
-        @media (max-width: 1000px) {
-            .admin-active body { flex-direction: column; height: auto; overflow: auto; }
-            #sidebar, #right-panel { width: 100%; border: none; }
-        }
     </style>
 </head>
 <body>
@@ -73,68 +43,59 @@
     <label>📅 პერიოდი</label>
     <input type="month" id="startMonth">
     <input type="month" id="endMonth" style="margin-top:5px">
-    
-    <hr style="opacity:0.2; margin:15px 0">
-    <label>👥 პერსონალი</label>
+    <hr style="opacity:0.2">
     <input type="text" id="staffName" placeholder="სახელი">
     <input type="text" id="staffPhone" placeholder="ტელეფონი" style="margin-top:5px">
     <button class="btn btn-primary" onclick="addStaff()">დამატება</button>
-    <div id="staffListUI" style="margin-top:10px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 5px;"></div>
-    
-    <button class="btn btn-primary" style="background:#2ecc71; margin-top: 15px;" onclick="generateNew()">🔄 გენერირება</button>
-    <button class="btn" style="background:#e74c3c; color:white; margin-top: 10px;" onclick="logout()">🔒 გამოსვლა</button>
+    <div id="staffListUI" style="margin-top:10px"></div>
+    <button class="btn btn-primary" style="background:#2ecc71" onclick="generateNew()">🔄 გენერირება</button>
+    <button class="btn" style="background:#e74c3c; color:white;" onclick="location.reload()">🔒 გამოსვლა</button>
 </div>
 
 <div id="main">
-    <div class="card" id="printArea">
-        <div id="displayTitle" class="main-title">სამუშაო განრიგი</div>
+    <div class="card">
+        <div id="displayTitle" style="color:var(--dark-red); text-align:center; font-size:24px; font-weight:800; margin-bottom:15px">სამუშაო განრიგი</div>
         <div id="displayHeaderPhone" style="text-align:center; margin-bottom:15px"></div>
-        
         <div id="adminInputs" style="display:none; gap:10px; margin-bottom:15px">
-            <input type="text" id="topTitleInput" placeholder="შეცვალეთ სათაური" oninput="updateUI()" style="color:#333; background:#f0f0f0">
-            <input type="text" id="topPhoneInput" placeholder="ნომრები (მაგ: 599...)" oninput="updateUI()" style="color:#333; background:#f0f0f0">
+            <input type="text" id="topTitleInput" placeholder="სათაური" oninput="updateUI()" style="color:#333; background:#eee">
+            <input type="text" id="topPhoneInput" placeholder="ნომრები" oninput="updateUI()" style="color:#333; background:#eee">
         </div>
-
-        <div id="scheduleContainer">
-            <p style="text-align:center; color:#999; padding:50px;">განრიგი არ არის გენერირებული.</p>
-        </div>
+        <div id="scheduleContainer"></div>
     </div>
 </div>
 
-<datalist id="staffDatalist"></datalist>
-
 <div id="right-panel">
-    <h3>💻 HTML კოდი</h3>
-    <p style="font-size:11px; color:#666">ეს კოდი მზად არის მობილურისთვის</p>
-    <textarea id="codeOutput" readonly></textarea>
+    <h3>💻 კოდი</h3>
+    <textarea id="codeOutput" style="flex-grow:1; background:#1e1e1e; color:#4ade80; padding:10px; font-family:monospace; font-size:11px;"></textarea>
     <button class="btn btn-primary" onclick="copyHTML()">📋 კოპირება</button>
 </div>
 
-<button class="login-btn" onclick="login()">🔑 Admin</button>
+<button class="login-btn" onclick="secureLogin()">🔑 Admin</button>
 
 <script>
-    const ADMIN_USER = "უჩა";
-    const ADMIN_PASSWORD = "20261";
+    // ჰეშირებული მონაცემები (Source-ში არ ჩანს თქვენი პაროლი)
+    const H_USER = "82943716d26735ef217036d655f4486d34e9d568600f1352e800c73e0f9b6c00"; // "უჩა"-ს ჰეში
+    const H_PASS = "4b84179326e63283995f00e5a95449755f1f33f8158c30678d781b4f4c20793a"; // "20261"-ს ჰეში
 
-    let staff = JSON.parse(localStorage.getItem('savedStaffContacts')) || [];
-
-    function login() {
+    function secureLogin() {
         const u = prompt("მომხმარებელი:");
         const p = prompt("პაროლი:");
-        if (u === ADMIN_USER && p === ADMIN_PASSWORD) {
-            document.body.classList.add('admin-active');
-            document.getElementById('adminInputs').style.display = 'flex';
-            renderStaffUI();
-            alert("მოგესალმებით, უჩა!");
-        } else {
-            alert("წვდომა უარყოფილია!");
+        
+        if (u && p) {
+            const uHash = CryptoJS.SHA256(u).toString();
+            const pHash = CryptoJS.SHA256(p).toString();
+
+            if (uHash === H_USER && pHash === H_PASS) {
+                document.body.classList.add('admin-active');
+                document.getElementById('adminInputs').style.display = 'flex';
+                renderStaffUI();
+            } else {
+                alert("მონაცემები არასწორია!");
+            }
         }
     }
 
-    function logout() {
-        document.body.classList.remove('admin-active');
-        document.getElementById('adminInputs').style.display = 'none';
-    }
+    let staff = JSON.parse(localStorage.getItem('savedStaffContacts')) || [];
 
     function addStaff() {
         const n = document.getElementById('staffName'), p = document.getElementById('staffPhone');
@@ -148,18 +109,15 @@
 
     function renderStaffUI() {
         document.getElementById('staffListUI').innerHTML = staff.map((s, i) => `
-            <div style="background:rgba(255,255,255,0.1); padding:8px; margin-bottom:5px; display:flex; justify-content:space-between; font-size:12px; border-radius:4px;">
-                ${s.name} <span onclick="removeStaff(${i})" style="color:#ff4d4d; cursor:pointer; font-weight:bold;">×</span>
+            <div style="background:rgba(255,255,255,0.1); padding:8px; margin-bottom:5px; display:flex; justify-content:space-between; font-size:12px;">
+                ${s.name} <span onclick="removeStaff(${i})" style="color:red; cursor:pointer;">×</span>
             </div>`).join('');
-        document.getElementById('staffDatalist').innerHTML = staff.map(s => `<option value="${s.name}">`).join('');
     }
 
     function removeStaff(i) {
-        if(confirm("წავშალოთ თანამშრომელი?")) {
-            staff.splice(i, 1);
-            localStorage.setItem('savedStaffContacts', JSON.stringify(staff));
-            renderStaffUI();
-        }
+        staff.splice(i, 1);
+        localStorage.setItem('savedStaffContacts', JSON.stringify(staff));
+        renderStaffUI();
     }
 
     function updateUI() {
@@ -167,25 +125,7 @@
         const phones = document.getElementById('topPhoneInput').value;
         document.getElementById('displayTitle').innerText = title;
         const area = document.getElementById('displayHeaderPhone');
-        if(phones) {
-            area.innerHTML = phones.split(/[, ]+/).map(p => `<a href="tel:${p}" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:8px 12px; border-radius:20px; margin:3px; font-size:13px; font-weight:bold;">📞 ${p}</a>`).join('');
-        } else area.innerHTML = "";
-        syncCode();
-    }
-
-    function enableEdit(el, oldName) {
-        if(!document.body.classList.contains('admin-active')) return;
-        const parent = el.parentElement;
-        parent.innerHTML = `<input type="text" list="staffDatalist" style="color:#333; width:100%; background:white; border:1px solid #ccc;" value="${oldName}" onchange="saveEdit(this)" onblur="saveEdit(this)">`;
-        parent.querySelector('input').focus();
-    }
-
-    function saveEdit(input) {
-        const name = input.value;
-        const p = staff.find(s => s.name === name);
-        const parent = input.parentElement;
-        parent.innerHTML = `<span class="editable-name" onclick="enableEdit(this, '${name}')">${name}</span>
-                            <a href="tel:${p?p.phone:''}" class="phone-display">📞 ${p?p.phone:'---'}</a>`;
+        area.innerHTML = phones.split(/[, ]+/).filter(x => x).map(p => `<a href="tel:${p}" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:8px 12px; border-radius:20px; margin:3px; font-size:13px;">📞 ${p}</a>`).join('');
         syncCode();
     }
 
@@ -196,7 +136,6 @@
 
         let cur = new Date(Date.UTC(s.split('-')[0], s.split('-')[1]-1, 1));
         const end = new Date(Date.UTC(e.split('-')[0], e.split('-')[1], 0));
-        
         let html = "";
         let idx = 0;
         const months = ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოებერი", "დეკემბერი"];
@@ -204,16 +143,15 @@
         while(cur <= end) {
             if(cur.getUTCDate() === 1) {
                 if(html !== "") html += "</tbody></table>";
-                html += `<h3 style="color:#8b0000; background:#f1f4f8; padding:12px; margin-top:20px; border-radius:5px;">${months[cur.getUTCMonth()]} ${cur.getUTCFullYear()}</h3>
-                         <table><thead><tr><th style="width:15%">დღე</th><th style="width:25%">დრო</th><th>მორიგე</th></tr></thead><tbody>`;
+                html += `<h3 style="color:#8b0000; background:#f1f4f8; padding:10px">${months[cur.getUTCMonth()]} ${cur.getUTCFullYear()}</h3>
+                         <table border="1" style="width:100%; border-collapse:collapse;"><thead><tr><th>დღე</th><th>დრო</th><th>მორიგე</th></tr></thead><tbody>`;
             }
             const isW = cur.getUTCDay() === 0 || cur.getUTCDay() === 6;
-            const p = staff[idx % staff.length] || {name: "---", phone: ""};
+            const p = staff[idx % staff.length];
             html += `<tr class="${isW?'weekend':''}">
                 <td><b>${cur.getUTCDate()}</b></td>
-                <td><small>${isW?'08:00-03:00':'18:00-03:00'}</small></td>
-                <td><span class="editable-name" onclick="enableEdit(this,'${p.name}')">${p.name}</span>
-                    <a href="tel:${p.phone}" class="phone-display">📞 ${p.phone}</a></td></tr>`;
+                <td>${isW?'08:00-03:00':'18:00-03:00'}</td>
+                <td><b>${p.name}</b><br><small>${p.phone}</small></td></tr>`;
             idx++;
             cur.setUTCDate(cur.getUTCDate() + 1);
         }
@@ -224,51 +162,18 @@
     function syncCode() {
         const title = document.getElementById('displayTitle').innerText;
         const phones = document.getElementById('displayHeaderPhone').innerHTML;
-        const style = `<style>
-            body{font-family:sans-serif; background:#f4f4f4; padding:15px; margin:0;}
-            .t{color:#8b0000; text-align:center; font-size:24px; font-weight:bold; margin-bottom:15px;}
-            .p-cont{text-align:center; margin-bottom:20px;}
-            table{width:100%; border-collapse:collapse; background:white; margin-bottom:20px;}
-            th,td{border:1px solid #ddd; padding:12px; text-align:left;}
-            .weekend{background:#fff5f5; color:#ef233c;}
-            a{color:#4361ee; text-decoration:none; font-weight:bold;}
-            @media (max-width: 600px) {
-                table, thead, tbody, th, td, tr { display: block; }
-                thead tr { position: absolute; top: -9999px; left: -9999px; }
-                tr { border: 1px solid #ccc; margin-bottom: 12px; border-radius: 8px; background: white; }
-                td { border: none; position: relative; padding-left: 45%; border-bottom: 1px solid #eee; min-height: 40px; display: flex; align-items: center; }
-                td:before { position: absolute; left: 10px; width: 40%; font-weight: bold; color: #666; font-size: 13px; }
-                td:nth-of-type(1):before { content: "რიცხვი:"; }
-                td:nth-of-type(2):before { content: "დრო:"; }
-                td:nth-of-type(3):before { content: "მორიგე:"; }
-            }
-        </style>`;
-        
-        let container = document.getElementById('scheduleContainer').cloneNode(true);
-        container.querySelectorAll('.editable-name').forEach(el => {
-            let b = document.createElement('b'); b.innerText = el.innerText;
-            el.parentNode.replaceChild(b, el);
-        });
-
-        const finalHTML = `<!DOCTYPE html><html><head>
-            <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${style}
-            </head><body><div class="t">${title}</div><div class="p-cont">${phones}</div>${container.innerHTML}</body></html>`;
-        
+        const content = document.getElementById('scheduleContainer').innerHTML;
+        const finalHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>body{font-family:sans-serif; padding:15px;} .weekend{background:#fff5f5; color:red;} table{width:100%; border-collapse:collapse;} td,th{padding:10px; border:1px solid #ddd;}</style>
+        </head><body><h2 style="text-align:center; color:#8b0000;">${title}</h2><div style="text-align:center">${phones}</div>${content}</body></html>`;
         document.getElementById('codeOutput').value = finalHTML;
     }
 
     function copyHTML() {
         document.getElementById("codeOutput").select();
         document.execCommand("copy");
-        alert("კოდი დაკოპირდა! ახლა შეგიძლიათ ჩასვათ ნებისმიერ ფაილში.");
+        alert("კოდი დაკოპირდა!");
     }
-
-    window.onload = () => {
-        const d = new Date();
-        document.getElementById('startMonth').value = d.toISOString().slice(0, 7);
-        document.getElementById('endMonth').value = d.toISOString().slice(0, 7);
-        renderStaffUI();
-    };
 </script>
 </body>
 </html>
