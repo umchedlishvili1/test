@@ -4,222 +4,290 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 15px; margin: 0; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; }
+        body { font-family: sans-serif; background: #f4f4f4; padding: 10px; margin: 0; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         .weekend { background: #fff5f5; color: #ef233c; }
-        .tel-link { color: #4361ee; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 5px; }
+        .staff-name { font-weight: bold; display: block; margin-bottom: 5px; font-size: 16px; }
+        .mobile-tel-btn { 
+            display: inline-block; 
+            background: #4361ee; 
+            color: white !important; 
+            text-decoration: none; 
+            padding: 8px 12px; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            font-weight: bold;
+            margin-top: 5px;
+        }
         @media (max-width: 600px) {
             table, thead, tbody, th, td, tr { display: block; }
             thead tr { position: absolute; top: -9999px; }
-            tr { border: 1px solid #ccc; margin-bottom: 10px; border-radius: 8px; overflow: hidden; }
-            td { border: none; position: relative; padding-left: 45%; border-bottom: 1px solid #eee; min-height: 40px; display: flex; align-items: center; }
-            td:before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; color: #666; font-size: 12px; }
+            tr { border: 1px solid #ccc; margin-bottom: 15px; border-radius: 10px; background: white; overflow: hidden; }
+            td { border: none; position: relative; padding-left: 40%; border-bottom: 1px solid #eee; min-height: 45px; display: flex; align-items: center; }
+            td:before { content: attr(data-label); position: absolute; left: 15px; font-weight: bold; color: #777; font-size: 13px; }
+            .mobile-tel-btn { display: block; text-align: center; width: 100%; box-sizing: border-box; padding: 10px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-            <div style="max-width:800px; margin:auto; background:white;">
-                <h1 style="color:#8b0000; text-align:center; font-size:24px; margin-bottom:5px;">თუ თქვენ აიტს ვერ უკავშირდებით დაგვიკავშირდით ამ ნომრებზე</h1>
-                <div style="text-align:center; margin-bottom:20px;"><a href="tel:599470033" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:8px 15px; border-radius:20px; margin:4px; font-size:12px; font-weight:bold;">📞 599470033</a><a href="tel:599470033" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:8px 15px; border-radius:20px; margin:4px; font-size:12px; font-weight:bold;">📞 599470033</a></div>
+            <div style="max-width:800px; margin:auto;">
+                <h1 style="color:#8b0000; text-align:center; font-size:26px;">თუ თქვენ აიტს ვერ უკავშირდებით დაგვიკავშირდით ამ ნომრებზე</h1>
+                <div style="text-align:center; margin-bottom:20px;"><a href="tel:599470033" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:10px 18px; border-radius:25px; margin:5px; font-size:14px; font-weight:bold;">📞 599470033</a><a href="tel:599470033" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:10px 18px; border-radius:25px; margin:5px; font-size:14px; font-weight:bold;">📞 599470033</a></div>
                 <h3 style="background:#f1f4f8; color:#8b0000; padding:10px; margin-top:20px; border-radius:5px;">თებერვალი 2026</h3>
                          <table><thead><tr><th>რიცხვი</th><th>დრო</th><th>მორიგე</th></tr></thead><tbody><tr class="weekend">
                 <td data-label="რიცხვი"><b>1</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ლომიძე</b><br>
-                    <a href="tel:555 55 82 22" class="tel-link">📞 555 55 82 22</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">შალვა გაგნიძე</span>
+                        <a href="tel:551 77 02 00" class="mobile-tel-btn">📞 551 77 02 00</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>2</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ტარყაშვილი</b><br>
-                    <a href="tel:577 38 52 50" class="tel-link">📞 577 38 52 50</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ვასილ გოგალაძე</span>
+                        <a href="tel:577 35 55 56" class="mobile-tel-btn">📞 577 35 55 56</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>3</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ვასილ გოგალაძე</b><br>
-                    <a href="tel:577 35 55 56" class="tel-link">📞 577 35 55 56</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ბოჭორიშვილი</span>
+                        <a href="tel:577 01 83 12" class="mobile-tel-btn">📞 577 01 83 12</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>4</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ალიკა ყალიჩავა</b><br>
-                    <a href="tel:591 90 35 90" class="tel-link">📞 591 90 35 90</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ტარყაშვილი</span>
+                        <a href="tel:577 38 52 50" class="mobile-tel-btn">📞 577 38 52 50</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>5</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ბექა ტალახაძე</b><br>
-                    <a href="tel:551 98 27 72" class="tel-link">📞 551 98 27 72</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ბექა ტალახაძე</span>
+                        <a href="tel:551 98 27 72" class="mobile-tel-btn">📞 551 98 27 72</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>6</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გუგა ბალანჩივაძე</b><br>
-                    <a href="tel:577 97 87 92" class="tel-link">📞 577 97 87 92</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ლომიძე</span>
+                        <a href="tel:555 55 82 22" class="mobile-tel-btn">📞 555 55 82 22</a>
+                    </div>
                 </td>
             </tr><tr class="weekend">
                 <td data-label="რიცხვი"><b>7</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ბოჭორიშვილი</b><br>
-                    <a href="tel:577 01 83 12" class="tel-link">📞 577 01 83 12</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გუგა ბალანჩივაძე</span>
+                        <a href="tel:577 97 87 92" class="mobile-tel-btn">📞 577 97 87 92</a>
+                    </div>
                 </td>
             </tr><tr class="weekend">
                 <td data-label="რიცხვი"><b>8</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>შალვა გაგნიძე</b><br>
-                    <a href="tel:551 77 02 00" class="tel-link">📞 551 77 02 00</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ალიკა ყალიჩავა</span>
+                        <a href="tel:591 90 35 90" class="mobile-tel-btn">📞 591 90 35 90</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>9</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ლომიძე</b><br>
-                    <a href="tel:555 55 82 22" class="tel-link">📞 555 55 82 22</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">შალვა გაგნიძე</span>
+                        <a href="tel:551 77 02 00" class="mobile-tel-btn">📞 551 77 02 00</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>10</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ტარყაშვილი</b><br>
-                    <a href="tel:577 38 52 50" class="tel-link">📞 577 38 52 50</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ვასილ გოგალაძე</span>
+                        <a href="tel:577 35 55 56" class="mobile-tel-btn">📞 577 35 55 56</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>11</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ვასილ გოგალაძე</b><br>
-                    <a href="tel:577 35 55 56" class="tel-link">📞 577 35 55 56</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ბოჭორიშვილი</span>
+                        <a href="tel:577 01 83 12" class="mobile-tel-btn">📞 577 01 83 12</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>12</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ალიკა ყალიჩავა</b><br>
-                    <a href="tel:591 90 35 90" class="tel-link">📞 591 90 35 90</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ტარყაშვილი</span>
+                        <a href="tel:577 38 52 50" class="mobile-tel-btn">📞 577 38 52 50</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>13</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ბექა ტალახაძე</b><br>
-                    <a href="tel:551 98 27 72" class="tel-link">📞 551 98 27 72</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ბექა ტალახაძე</span>
+                        <a href="tel:551 98 27 72" class="mobile-tel-btn">📞 551 98 27 72</a>
+                    </div>
                 </td>
             </tr><tr class="weekend">
                 <td data-label="რიცხვი"><b>14</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გუგა ბალანჩივაძე</b><br>
-                    <a href="tel:577 97 87 92" class="tel-link">📞 577 97 87 92</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ლომიძე</span>
+                        <a href="tel:555 55 82 22" class="mobile-tel-btn">📞 555 55 82 22</a>
+                    </div>
                 </td>
             </tr><tr class="weekend">
                 <td data-label="რიცხვი"><b>15</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ბოჭორიშვილი</b><br>
-                    <a href="tel:577 01 83 12" class="tel-link">📞 577 01 83 12</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გუგა ბალანჩივაძე</span>
+                        <a href="tel:577 97 87 92" class="mobile-tel-btn">📞 577 97 87 92</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>16</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>შალვა გაგნიძე</b><br>
-                    <a href="tel:551 77 02 00" class="tel-link">📞 551 77 02 00</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ალიკა ყალიჩავა</span>
+                        <a href="tel:591 90 35 90" class="mobile-tel-btn">📞 591 90 35 90</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>17</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ლომიძე</b><br>
-                    <a href="tel:555 55 82 22" class="tel-link">📞 555 55 82 22</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">შალვა გაგნიძე</span>
+                        <a href="tel:551 77 02 00" class="mobile-tel-btn">📞 551 77 02 00</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>18</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ტარყაშვილი</b><br>
-                    <a href="tel:577 38 52 50" class="tel-link">📞 577 38 52 50</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ვასილ გოგალაძე</span>
+                        <a href="tel:577 35 55 56" class="mobile-tel-btn">📞 577 35 55 56</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>19</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ვასილ გოგალაძე</b><br>
-                    <a href="tel:577 35 55 56" class="tel-link">📞 577 35 55 56</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ბოჭორიშვილი</span>
+                        <a href="tel:577 01 83 12" class="mobile-tel-btn">📞 577 01 83 12</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>20</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ალიკა ყალიჩავა</b><br>
-                    <a href="tel:591 90 35 90" class="tel-link">📞 591 90 35 90</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ტარყაშვილი</span>
+                        <a href="tel:577 38 52 50" class="mobile-tel-btn">📞 577 38 52 50</a>
+                    </div>
                 </td>
             </tr><tr class="weekend">
                 <td data-label="რიცხვი"><b>21</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ბექა ტალახაძე</b><br>
-                    <a href="tel:551 98 27 72" class="tel-link">📞 551 98 27 72</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ბექა ტალახაძე</span>
+                        <a href="tel:551 98 27 72" class="mobile-tel-btn">📞 551 98 27 72</a>
+                    </div>
                 </td>
             </tr><tr class="weekend">
                 <td data-label="რიცხვი"><b>22</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გუგა ბალანჩივაძე</b><br>
-                    <a href="tel:577 97 87 92" class="tel-link">📞 577 97 87 92</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ლომიძე</span>
+                        <a href="tel:555 55 82 22" class="mobile-tel-btn">📞 555 55 82 22</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>23</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ბოჭორიშვილი</b><br>
-                    <a href="tel:577 01 83 12" class="tel-link">📞 577 01 83 12</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გუგა ბალანჩივაძე</span>
+                        <a href="tel:577 97 87 92" class="mobile-tel-btn">📞 577 97 87 92</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>24</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>შალვა გაგნიძე</b><br>
-                    <a href="tel:551 77 02 00" class="tel-link">📞 551 77 02 00</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ალიკა ყალიჩავა</span>
+                        <a href="tel:591 90 35 90" class="mobile-tel-btn">📞 591 90 35 90</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>25</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ლომიძე</b><br>
-                    <a href="tel:555 55 82 22" class="tel-link">📞 555 55 82 22</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">შალვა გაგნიძე</span>
+                        <a href="tel:551 77 02 00" class="mobile-tel-btn">📞 551 77 02 00</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>26</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>გიორგი ტარყაშვილი</b><br>
-                    <a href="tel:577 38 52 50" class="tel-link">📞 577 38 52 50</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">ვასილ გოგალაძე</span>
+                        <a href="tel:577 35 55 56" class="mobile-tel-btn">📞 577 35 55 56</a>
+                    </div>
                 </td>
             </tr><tr class="">
                 <td data-label="რიცხვი"><b>27</b></td>
                 <td data-label="დრო">18:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ვასილ გოგალაძე</b><br>
-                    <a href="tel:577 35 55 56" class="tel-link">📞 577 35 55 56</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ბოჭორიშვილი</span>
+                        <a href="tel:577 01 83 12" class="mobile-tel-btn">📞 577 01 83 12</a>
+                    </div>
                 </td>
             </tr><tr class="weekend">
                 <td data-label="რიცხვი"><b>28</b></td>
                 <td data-label="დრო">08:00-03:00</td>
                 <td data-label="მორიგე">
-                    <b>ალიკა ყალიჩავა</b><br>
-                    <a href="tel:591 90 35 90" class="tel-link">📞 591 90 35 90</a>
+                    <div class="staff-cell">
+                        <span class="staff-name">გიორგი ტარყაშვილი</span>
+                        <a href="tel:577 38 52 50" class="mobile-tel-btn">📞 577 38 52 50</a>
+                    </div>
                 </td>
             </tr></tbody></table>
             </div>
