@@ -1,215 +1,252 @@
-<!DOCTYPE html><html lang="ka"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 10px; margin: 0; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        .weekend { background: #fff5f5; color: #ef233c; }
-        .tel-link-btn { display: inline-block; background: #007bff; color: white !important; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 5px; width: 100%; text-align: center; box-sizing: border-box; }
-        @media (max-width: 600px) {
-            table, thead, tbody, th, td, tr { display: block; }
-            thead tr { position: absolute; top: -9999px; }
-            tr { border: 1px solid #ccc; margin-bottom: 15px; border-radius: 10px; background: white; padding: 10px; }
-            td { border: none; position: relative; padding-left: 40%; border-bottom: 1px solid #eee; min-height: 50px; display: flex; align-items: center; justify-content: flex-start; }
-            td:before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; color: #666; font-size: 12px; }
-            td:last-child { border-bottom: none; display: block; padding-left: 10px; padding-top: 30px; }
-            td:last-child:before { top: 10px; }
-            .tel-link-btn { padding: 15px; font-size: 18px; }
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DutyPlanner Pro - iOS Optimized</title>
+    <style>
+        :root { --primary: #4361ee; --dark-red: #8b0000; --bg: #f8f9fd; --sidebar-bg: #1e1e2d; --viber-bg: #7360f2; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+
+        #sidebar { width: 340px; background: var(--sidebar-bg); color: white; padding: 20px; overflow-y: auto; flex-shrink: 0; -webkit-overflow-scrolling: touch; }
+        #main { flex-grow: 1; padding: 20px; overflow-y: auto; background: white; -webkit-overflow-scrolling: touch; }
+
+        /* iPhone Look & Feel for Inputs */
+        input, select { 
+            background: rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255,255,255,0.2); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 10px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            -webkit-appearance: none; /* Removes iOS default styling */
+            font-size: 16px; /* Prevents iOS auto-zoom */
         }
-        </style></head><body><div class="container"><h1 style="color:#8b0000; text-align:center;">თუ თქვენ აიტს ვერ უკავშირდებით დაგვიკავშირდით ამ ნომრებზე</h1><div style="text-align:center; margin-bottom:25px;"><a href="tel:599470033" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:10px 18px; border-radius:25px; margin:4px; font-size:14px; font-weight:bold;">📞 599470033</a><a href="tel:577698890" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:10px 18px; border-radius:25px; margin:4px; font-size:14px; font-weight:bold;">📞 577698890</a></div><h3 style="background:#f1f4f8; color:#8b0000; padding:12px; margin-top:30px; border-radius:5px;">თებერვალი 2026</h3>
-                         <table><thead><tr><th>რიცხვი</th><th>დრო</th><th>მორიგე</th></tr></thead><tbody><tr class="weekend">
-                <td data-label="რიცხვი"><b>1</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ლომიძე</b></div>
-                    <a href="tel:555 55 82 22" class="tel-link-btn">📞 555 55 82 22</a>
+
+        .input-group { margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; }
+        label { display: block; font-size: 12px; margin-bottom: 5px; color: var(--primary); font-weight: bold; text-transform: uppercase; }
+        
+        .today-box { 
+            background: linear-gradient(135deg, #8b0000, #c0392b); 
+            color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 30px; 
+            box-shadow: 0 10px 20px rgba(139,0,0,0.15);
+        }
+        .today-name { font-size: 26px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+
+        .btn { padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; width: 100%; transition: 0.2s; margin-top: 5px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-copy { background: #2ecc71; color: white; margin-top: 20px; font-size: 16px; height: 55px; box-shadow: 0 4px 12px rgba(46,204,113,0.3); }
+
+        .month-header { display: flex; flex-direction: column; align-items: center; background: #eef2f7; padding: 15px; margin-top: 30px; border-radius: 12px; border-left: 8px solid var(--dark-red); color: #222; gap: 8px; }
+        .current-time-inline { font-size: 15px; font-weight: 700; color: #d00000; background: white; padding: 4px 10px; border-radius: 6px; border: 1px solid #ddd; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        td { border-bottom: 1px solid #eee; padding: 14px 8px; text-align: left; font-size: 15px; }
+        .weekend { background: #fff5f5; color: #ef233c; }
+
+        .phone-group { display: flex; flex-direction: column; gap: 6px; }
+        .btn-call { background: #007bff; color: white !important; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: bold; text-align: center; display: block; }
+        .btn-viber { background: var(--viber-bg); color: white !important; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: 900; text-align: center; display: block; }
+
+        #codeOutput { display: none; }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h2 style="color:var(--primary); margin-top:0; letter-spacing: -1px;">DutyPlanner Pro</h2>
+    <div class="input-group">
+        <label>განრიგის სათაური</label>
+        <input type="text" id="topTitleInput" placeholder="მაგ: დაცვის განრიგი" oninput="renderPreview()">
+    </div>
+    <div style="display:flex; gap:8px; margin-bottom: 15px;">
+        <input type="month" id="startMonth">
+        <input type="month" id="endMonth">
+    </div>
+    <button class="btn btn-primary" style="background:#9b59b6;" onclick="generateRandom()">🎲 გენერირება</button>
+    <hr style="opacity:0.1; margin:20px 0;">
+    <div class="input-group">
+        <label>პასუხისმგებელი პირები</label>
+        <input type="text" id="adminName" placeholder="სახელი გვარი" style="margin-bottom:8px;">
+        <input type="text" id="adminPhone" placeholder="ტელეფონი">
+        <button class="btn btn-primary" style="background:#e67e22; margin-top:10px;" onclick="addAdmin()">+ დამატება</button>
+        <div id="adminList" style="margin-top:12px; font-size:13px;"></div>
+    </div>
+    <div class="input-group">
+        <label>პერსონალის ბაზა</label>
+        <input type="text" id="staffName" placeholder="სახელი">
+        <input type="text" id="staffPhone" placeholder="ტელეფონი" style="margin-top:8px;">
+        <button class="btn btn-primary" style="margin-top:10px;" onclick="addStaff()">+ სიაში დამატება</button>
+        <div id="statsUI" style="margin-top:12px; max-height: 180px; overflow-y: auto; font-size:13px;"></div>
+    </div>
+    <button class="btn btn-copy" onclick="copyFinalHTML()">📋 კოდის კოპირება</button>
+</div>
+
+<div id="main">
+    <div id="schedulePreview">
+        <div style="text-align:center; padding-top:100px; color:#ccc;">
+            <h3>შექმენით განრიგი გვერდითა პანელიდან</h3>
+        </div>
+    </div>
+</div>
+<textarea id="codeOutput"></textarea>
+
+<script>
+    let staff = JSON.parse(localStorage.getItem('savedStaffContacts')) || [];
+    let admins = JSON.parse(localStorage.getItem('savedAdmins')) || [];
+    let currentScheduleData = [];
+    const monthsKA = ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"];
+
+    function updateLiveTime() {
+        const now = new Date();
+        const timeStr = now.getDate() + " " + monthsKA[now.getMonth()] + " | " + 
+                        String(now.getHours()).padStart(2, '0') + ":" + 
+                        String(now.getMinutes()).padStart(2, '0') + ":" + 
+                        String(now.getSeconds()).padStart(2, '0');
+        document.querySelectorAll('.current-time-inline').forEach(el => el.innerHTML = "📅 " + timeStr);
+    }
+    setInterval(updateLiveTime, 1000);
+
+    function formatViber(p) {
+        let clean = p.toString().replace(/\D/g, '');
+        if (clean.length === 9) clean = '995' + clean;
+        return "viber://contact?number=%2B" + clean;
+    }
+
+    function addAdmin() {
+        const n = document.getElementById('adminName'), p = document.getElementById('adminPhone');
+        if(n.value.trim()) { admins.push({ name: n.value.trim(), phone: p.value.trim() }); localStorage.setItem('savedAdmins', JSON.stringify(admins)); updateAdminUI(); renderPreview(); n.value=""; p.value=""; }
+    }
+
+    function updateAdminUI() { document.getElementById('adminList').innerHTML = admins.map((a, i) => `<div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; display:flex; justify-content:space-between; margin-bottom:5px;"><span>${a.name}</span><span onclick="admins.splice(${i},1); updateAdminUI(); renderPreview();" style="color:#ff7675; cursor:pointer; font-weight:bold; padding:0 5px;">×</span></div>`).join(''); }
+
+    function addStaff() {
+        const n = document.getElementById('staffName'), p = document.getElementById('staffPhone');
+        if(n.value.trim()) { staff.push({ name: n.value.trim(), phone: p.value.trim() }); localStorage.setItem('savedStaffContacts', JSON.stringify(staff)); updateStaffUI(); renderPreview(); n.value=""; p.value=""; }
+    }
+
+    function updateStaffUI() { document.getElementById('statsUI').innerHTML = staff.map((s, i) => `<div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; display:flex; justify-content:space-between; margin-bottom:5px;"><span>${s.name}</span><span onclick="staff.splice(${i},1); updateStaffUI(); renderPreview();" style="color:#ff7675; cursor:pointer; font-weight:bold; padding:0 5px;">×</span></div>`).join(''); }
+
+    function generateRandom() {
+        const s = document.getElementById('startMonth').value, e = document.getElementById('endMonth').value;
+        if(!s || !e || staff.length === 0) return alert("შეავსეთ მონაცემები!");
+        let shuffled = [...staff].sort(() => Math.random() - 0.5);
+        let cur = new Date(Date.UTC(s.split('-')[0], s.split('-')[1]-1, 1));
+        const end = new Date(Date.UTC(e.split('-')[0], e.split('-')[1], 0));
+        currentScheduleData = [];
+        let idx = 0;
+        while(cur <= end) {
+            let p = shuffled[idx % shuffled.length];
+            currentScheduleData.push({ day: cur.getUTCDate(), month: cur.getUTCMonth(), year: cur.getUTCFullYear(), isWeekend: (cur.getUTCDay() === 0 || cur.getUTCDay() === 6), staffName: p.name, staffPhone: p.phone });
+            idx++; cur.setUTCDate(cur.getUTCDate() + 1);
+        }
+        renderPreview();
+    }
+
+    function renderPreview() {
+        const title = document.getElementById('topTitleInput').value || "სამუშაო განრიგი";
+        const now = new Date();
+        const todayData = currentScheduleData.find(d => d.day === now.getDate() && d.month === now.getMonth() && d.year === now.getFullYear());
+
+        let todayHTML = `<div class="today-box" id="dynamicHeader">
+            <h2>🔔 დღევანდელი მორიგე</h2>
+            <div class="today-name" id="liveName">${todayData ? todayData.staffName : "---"}</div>
+            <div class="phone-group" style="max-width:220px; margin:auto;">
+                <a href="${todayData ? 'tel:'+todayData.staffPhone.replace(/\D/g,'') : '#'}" id="livePhone" class="btn-call" style="background:#fff; color:#8b0000 !important;">📞 ${todayData ? todayData.staffPhone : "---"}</a>
+                <a href="${todayData ? formatViber(todayData.staffPhone) : '#'}" id="liveViber" class="btn-viber" style="background:#fff; color:#7360f2 !important;">VIBER</a>
+            </div>
+        </div>`;
+
+        let html = `${todayHTML}<h1 style="text-align:center; color:var(--dark-red); font-size:22px;">${title}</h1>`;
+        let lastMonth = -1;
+        
+        currentScheduleData.forEach((item, i) => {
+            if (item.month !== lastMonth) {
+                if (lastMonth !== -1) html += "</tbody></table>";
+                html += `<div class="month-header"><b>${monthsKA[item.month]} ${item.year}</b><span class="current-time-inline"></span></div><table class="schedule-table"><tbody>`;
+                lastMonth = item.month;
+            }
+            const options = staff.map(s => `<option value="${s.name}" ${s.name === item.staffName ? 'selected' : ''}>${s.name}</option>`).join('');
+            html += `<tr class="${item.isWeekend?'weekend':''}" data-day="${item.day}" data-month="${item.month}" data-year="${item.year}">
+                <td style="width:10%; font-weight:bold;">${item.day}</td>
+                <td style="width:45%;"><select style="background:white; color:black; border:1px solid #ccc; padding:8px; width:100%; border-radius:8px; -webkit-appearance:auto;" onchange="const p=staff.find(s=>s.name===this.value); currentScheduleData[${i}].staffName=p.name; currentScheduleData[${i}].staffPhone=p.phone; renderPreview();">${options}</select></td>
+                <td style="width:45%;">
+                    <div class="phone-group">
+                        <a href="tel:${item.staffPhone.replace(/\D/g,'')}" class="btn-call">📞 ${item.staffPhone}</a>
+                        <a href="${formatViber(item.staffPhone)}" class="btn-viber">VIBER</a>
+                    </div>
                 </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>2</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ბოჭორიშვილი</b></div>
-                    <a href="tel:577 01 83 12" class="tel-link-btn">📞 577 01 83 12</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>3</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ტარყაშვილი</b></div>
-                    <a href="tel:577 38 52 50" class="tel-link-btn">📞 577 38 52 50</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>4</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">შალვა გაგნიძე</b></div>
-                    <a href="tel:551 77 02 00" class="tel-link-btn">📞 551 77 02 00</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>5</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ალიკა ყალიჩავა</b></div>
-                    <a href="tel:591 90 35 90" class="tel-link-btn">📞 591 90 35 90</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>6</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ბექა ტალახაძე</b></div>
-                    <a href="tel:551 98 27 72" class="tel-link-btn">📞 551 98 27 72</a>
-                </td>
-            </tr><tr class="weekend">
-                <td data-label="რიცხვი"><b>7</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ბოჭორიშვილი</b></div>
-                    <a href="tel:577 01 83 12" class="tel-link-btn">📞 577 01 83 12</a>
-                </td>
-            </tr><tr class="weekend">
-                <td data-label="რიცხვი"><b>8</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ტარყაშვილი</b></div>
-                    <a href="tel:577 38 52 50" class="tel-link-btn">📞 577 38 52 50</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>9</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ალიკა ყალიჩავა</b></div>
-                    <a href="tel:591 90 35 90" class="tel-link-btn">📞 591 90 35 90</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>10</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გუგა ბალანჩივაძე</b></div>
-                    <a href="tel:577 97 87 92" class="tel-link-btn">📞 577 97 87 92</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>11</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ტარყაშვილი</b></div>
-                    <a href="tel:577 38 52 50" class="tel-link-btn">📞 577 38 52 50</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>12</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ლომიძე</b></div>
-                    <a href="tel:555 55 82 22" class="tel-link-btn">📞 555 55 82 22</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>13</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ვასილ გოგალაძე</b></div>
-                    <a href="tel:577 35 55 56" class="tel-link-btn">📞 577 35 55 56</a>
-                </td>
-            </tr><tr class="weekend">
-                <td data-label="რიცხვი"><b>14</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ვასილ გოგალაძე</b></div>
-                    <a href="tel:577 35 55 56" class="tel-link-btn">📞 577 35 55 56</a>
-                </td>
-            </tr><tr class="weekend">
-                <td data-label="რიცხვი"><b>15</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გუგა ბალანჩივაძე</b></div>
-                    <a href="tel:577 97 87 92" class="tel-link-btn">📞 577 97 87 92</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>16</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ალიკა ყალიჩავა</b></div>
-                    <a href="tel:591 90 35 90" class="tel-link-btn">📞 591 90 35 90</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>17</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გუგა ბალანჩივაძე</b></div>
-                    <a href="tel:577 97 87 92" class="tel-link-btn">📞 577 97 87 92</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>18</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ვასილ გოგალაძე</b></div>
-                    <a href="tel:577 35 55 56" class="tel-link-btn">📞 577 35 55 56</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>19</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ტარყაშვილი</b></div>
-                    <a href="tel:577 38 52 50" class="tel-link-btn">📞 577 38 52 50</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>20</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">შალვა გაგნიძე</b></div>
-                    <a href="tel:551 77 02 00" class="tel-link-btn">📞 551 77 02 00</a>
-                </td>
-            </tr><tr class="weekend">
-                <td data-label="რიცხვი"><b>21</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ბექა ტალახაძე</b></div>
-                    <a href="tel:551 98 27 72" class="tel-link-btn">📞 551 98 27 72</a>
-                </td>
-            </tr><tr class="weekend">
-                <td data-label="რიცხვი"><b>22</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">შალვა გაგნიძე</b></div>
-                    <a href="tel:551 77 02 00" class="tel-link-btn">📞 551 77 02 00</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>23</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ალიკა ყალიჩავა</b></div>
-                    <a href="tel:591 90 35 90" class="tel-link-btn">📞 591 90 35 90</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>24</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ვასილ გოგალაძე</b></div>
-                    <a href="tel:577 35 55 56" class="tel-link-btn">📞 577 35 55 56</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>25</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ლომიძე</b></div>
-                    <a href="tel:555 55 82 22" class="tel-link-btn">📞 555 55 82 22</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>26</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">გიორგი ბოჭორიშვილი</b></div>
-                    <a href="tel:577 01 83 12" class="tel-link-btn">📞 577 01 83 12</a>
-                </td>
-            </tr><tr class="">
-                <td data-label="რიცხვი"><b>27</b></td>
-                <td data-label="დრო">18:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ბექა ტალახაძე</b></div>
-                    <a href="tel:551 98 27 72" class="tel-link-btn">📞 551 98 27 72</a>
-                </td>
-            </tr><tr class="weekend">
-                <td data-label="რიცხვი"><b>28</b></td>
-                <td data-label="დრო">08:00-03:00</td>
-                <td data-label="მორიგე">
-                    <div style="margin-bottom:10px;"><b style="display: block; margin-bottom: 8px; font-size: 18px;">ალიკა ყალიჩავა</b></div>
-                    <a href="tel:591 90 35 90" class="tel-link-btn">📞 591 90 35 90</a>
-                </td>
-            </tr></tbody></table></div></body></html>
+            </tr>`;
+        });
+
+        let adminsHTML = admins.length > 0 ? `<div style="margin-top:40px; border-top:2px solid #eee; padding-top:20px; text-align:center;"><h3 style="color:#555; font-size:14px;">⚠️ პასუხისმგებელი პირები</h3>${admins.map(a => `<div style="margin:15px auto; max-width:250px;"><div style="font-weight:bold; margin-bottom:5px;">${a.name}</div><div class="phone-group"><a href="tel:${a.phone.replace(/\D/g,'')}" class="btn-call">📞 ${a.phone}</a><a href="${formatViber(a.phone)}" class="btn-viber">VIBER</a></div></div>`).join('')}</div>` : "";
+
+        document.getElementById('schedulePreview').innerHTML = html + "</tbody></table>" + adminsHTML;
+        updateLiveTime();
+    }
+
+    function copyFinalHTML() {
+        let tempDiv = document.createElement('div');
+        tempDiv.innerHTML = document.getElementById('schedulePreview').innerHTML;
+        tempDiv.querySelectorAll('select').forEach(s => { let b = document.createElement('b'); b.innerText = s.value; s.parentNode.replaceChild(b, s); });
+        
+        const final = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><style>
+            body { font-family: -apple-system, system-ui, sans-serif; padding: 5px; background: #f9f9f9; -webkit-font-smoothing: antialiased; }
+            .container { max-width: 500px; margin: auto; background: white; padding: 15px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+            .today-box { background: linear-gradient(135deg, #8b0000, #c0392b); color: white; padding: 20px; border-radius: 14px; text-align: center; margin-bottom: 20px; }
+            .today-name { font-size: 26px; font-weight: 800; margin-bottom: 12px; }
+            .month-header { display: flex; flex-direction: column; align-items: center; background: #eef2f7; padding: 12px; margin-top: 20px; border-radius: 10px; border-left: 6px solid #8b0000; gap: 6px; }
+            .current-time-inline { font-size: 14px; font-weight: 700; color: #d00000; background: white; padding: 4px 8px; border-radius: 5px; border: 1px solid #ddd; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+            td { border-bottom: 1px solid #eee; padding: 12px 5px; font-size: 14px; }
+            .weekend { background: #fffafa; color: #d9534f; }
+            .active-row { background: #fff3cd !important; font-weight: bold; }
+            .phone-group { display: flex; flex-direction: column; gap: 5px; }
+            .btn-call { background: #007bff; color: white !important; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: bold; text-align: center; display: block; -webkit-tap-highlight-color: transparent; }
+            .btn-viber { background: #7360f2; color: white !important; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 10px; font-weight: 900; text-align: center; display: block; }
+        </style></head><body><div class="container">${tempDiv.innerHTML}</div>
+        <script>
+            const mKA = ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"];
+            
+            function updateDynamicData() {
+                const n = new Date();
+                const d = n.getDate(), m = n.getMonth(), y = n.getFullYear();
+                
+                // 1. დროის განახლება
+                const ts = d + " " + mKA[m] + " | " + String(n.getHours()).padStart(2, '0') + ":" + String(n.getMinutes()).padStart(2, '0') + ":" + String(n.getSeconds()).padStart(2, '0');
+                document.querySelectorAll('.current-time-inline').forEach(el => el.innerHTML = "📅 " + ts);
+                
+                // 2. დღევანდელი მორიგის ლოგიკა
+                const rows = document.querySelectorAll('tr[data-day]');
+                rows.forEach(row => {
+                    const rd = parseInt(row.getAttribute('data-day'));
+                    const rm = parseInt(row.getAttribute('data-month'));
+                    const ry = parseInt(row.getAttribute('data-year'));
+                    
+                    if(rd === d && rm === m && ry === y) {
+                        row.classList.add('active-row');
+                        const name = row.querySelector('b').innerText;
+                        const phone = row.querySelector('.btn-call').innerText.replace('📞', '').trim();
+                        const viber = row.querySelector('.btn-viber').getAttribute('href');
+                        
+                        document.getElementById('liveName').innerText = name;
+                        document.getElementById('livePhone').innerText = "📞 " + phone;
+                        document.getElementById('livePhone').setAttribute('href', "tel:" + phone.replace(/\\D/g,''));
+                        document.getElementById('liveViber').setAttribute('href', viber);
+                    } else {
+                        row.classList.remove('active-row');
+                    }
+                });
+            }
+            setInterval(updateDynamicData, 1000);
+            updateDynamicData();
+        <\/script></body></html>`;
+        
+        const el = document.getElementById('codeOutput'); el.value = final; el.style.display="block"; el.select(); document.execCommand('copy'); el.style.display="none";
+        alert("კოდი დაკოპირდა! განრიგი ოპტიმიზებულია iPhone-სთვის და ავტომატურია.");
+    }
+    window.onload = () => { updateAdminUI(); updateStaffUI(); };
+</script>
+</body>
+</html>
