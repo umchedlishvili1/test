@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DutyPlanner Pro - Secure Edition</title>
+    <title>DutyPlanner Pro - Persistent Edition</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
@@ -17,90 +17,105 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
         /* Sidebar & Layout */
-        #sidebar { width: 320px; background: var(--sidebar-bg); color: white; padding: 20px; overflow-y: auto; display: none; }
+        #sidebar { width: 320px; background: var(--sidebar-bg); color: white; padding: 20px; overflow-y: auto; display: none; flex-direction: column; }
         #main { flex-grow: 1; padding: 20px; overflow-y: auto; }
         #right-panel { width: 320px; padding: 20px; background: white; border-left: 1px solid #ddd; display: none; flex-direction: column; }
 
+        /* გააქტიურებული ადმინ რეჟიმი */
         .admin-active #sidebar, .admin-active #right-panel { display: flex; }
         .admin-active #sidebar { display: block; }
+        .admin-active #adminInputs { display: flex !important; }
 
-        input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 6px; width: 100%; box-sizing: border-box; }
+        input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 6px; width: 100%; box-sizing: border-box; margin-bottom: 8px; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 900px; margin: 0 auto; }
         
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 12px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         .weekend { background-color: var(--weekend-bg); color: #ef233c; }
 
-        .login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.1; cursor: pointer; background: none; border: none; font-size: 10px; }
+        .staff-item { background: rgba(255,255,255,0.05); padding: 8px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; font-size: 13px; }
+        .remove-btn { color: #ff4d4d; cursor: pointer; font-weight: bold; font-size: 16px; padding: 0 5px; }
+
+        .login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.1; cursor: pointer; background: none; border: none; font-size: 10px; color: #666; }
         .btn { padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; width: 100%; margin-top: 5px; }
         .btn-primary { background: var(--primary); color: white; }
+        .btn-green { background: #2ecc71; color: white; }
+        
+        #codeOutput { flex-grow: 1; background: #1e1e1e; color: #4ade80; padding: 10px; font-family: monospace; font-size: 11px; border-radius: 5px; resize: none; border: none; }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <h2 style="text-align:center">🛠 ადმინ პანელი</h2>
-    <label>📅 პერიოდი</label>
-    <input type="month" id="startMonth">
-    <input type="month" id="endMonth" style="margin-top:5px">
-    <hr style="opacity:0.2">
+    <h2 style="text-align:center; margin-bottom:20px;">🛠 მართვა</h2>
+    
+    <label style="font-size:12px; color:#aaa;">პერიოდი</label>
+    <input type="month" id="startMonth" onchange="saveSettings()">
+    <input type="month" id="endMonth" onchange="saveSettings()">
+    
+    <hr style="opacity:0.1; margin:15px 0;">
+    
+    <label style="font-size:12px; color:#aaa;">პერსონალის დამატება</label>
     <input type="text" id="staffName" placeholder="სახელი">
-    <input type="text" id="staffPhone" placeholder="ტელეფონი" style="margin-top:5px">
+    <input type="text" id="staffPhone" placeholder="ტელეფონი">
     <button class="btn btn-primary" onclick="addStaff()">დამატება</button>
-    <div id="staffListUI" style="margin-top:10px"></div>
-    <button class="btn btn-primary" style="background:#2ecc71" onclick="generateNew()">🔄 გენერირება</button>
-    <button class="btn" style="background:#e74c3c; color:white;" onclick="location.reload()">🔒 გამოსვლა</button>
+    
+    <div id="staffListUI" style="margin-top:15px; max-height: 200px; overflow-y: auto;"></div>
+    
+    <button class="btn btn-green" style="margin-top: 20px;" onclick="generateNew()">🔄 განრიგის გენერირება</button>
+    <button class="btn" style="background:#e74c3c; color:white; margin-top: 10px;" onclick="location.reload()">🔒 გამოსვლა</button>
 </div>
 
 <div id="main">
     <div class="card">
-        <div id="displayTitle" style="color:var(--dark-red); text-align:center; font-size:24px; font-weight:800; margin-bottom:15px">სამუშაო განრიგი</div>
-        <div id="displayHeaderPhone" style="text-align:center; margin-bottom:15px"></div>
-        <div id="adminInputs" style="display:none; gap:10px; margin-bottom:15px">
+        <div id="displayTitle" style="color:var(--dark-red); text-align:center; font-size:26px; font-weight:800; margin-bottom:5px">სამუშაო განრიგი</div>
+        <div id="displayHeaderPhone" style="text-align:center; margin-bottom:20px"></div>
+        
+        <div id="adminInputs" style="display:none; gap:10px; margin-bottom:20px">
             <input type="text" id="topTitleInput" placeholder="სათაური" oninput="updateUI()" style="color:#333; background:#eee">
-            <input type="text" id="topPhoneInput" placeholder="ნომრები" oninput="updateUI()" style="color:#333; background:#eee">
+            <input type="text" id="topPhoneInput" placeholder="ნომრები (მძიმით)" oninput="updateUI()" style="color:#333; background:#eee">
         </div>
+        
         <div id="scheduleContainer"></div>
     </div>
 </div>
 
 <div id="right-panel">
-    <h3>💻 კოდი</h3>
-    <textarea id="codeOutput" style="flex-grow:1; background:#1e1e1e; color:#4ade80; padding:10px; font-family:monospace; font-size:11px;"></textarea>
-    <button class="btn btn-primary" onclick="copyHTML()">📋 კოპირება</button>
+    <h3>💻 მზა HTML კოდი</h3>
+    <textarea id="codeOutput" readonly></textarea>
+    <button class="btn btn-primary" style="margin-top:10px" onclick="copyHTML()">📋 კოდის კოპირება</button>
 </div>
 
 <button class="login-btn" onclick="secureLogin()">🔑 Admin</button>
 
 <script>
-    // ჰეშირებული მონაცემები (Source-ში არ ჩანს თქვენი პაროლი)
-    const H_USER = "82943716d26735ef217036d655f4486d34e9d568600f1352e800c73e0f9b6c00"; // "უჩა"-ს ჰეში
-    const H_PASS = "4b84179326e63283995f00e5a95449755f1f33f8158c30678d781b4f4c20793a"; // "20261"-ს ჰეში
+    const H_USER = "82943716d26735ef217036d655f4486d34e9d568600f1352e800c73e0f9b6c00"; // უჩა
+    const H_PASS = "4b84179326e63283995f00e5a95449755f1f33f8158c30678d781b4f4c20793a"; // 20261
+
+    let staff = JSON.parse(localStorage.getItem('savedStaffContacts')) || [];
+    let settings = JSON.parse(localStorage.getItem('ucha_settings')) || {
+        title: "სამუშაო განრიგი",
+        phones: "",
+        startMonth: "",
+        endMonth: "",
+        lastSchedule: ""
+    };
 
     function secureLogin() {
         const u = prompt("მომხმარებელი:");
         const p = prompt("პაროლი:");
-        
         if (u && p) {
-            const uHash = CryptoJS.SHA256(u).toString();
-            const pHash = CryptoJS.SHA256(p).toString();
-
-            if (uHash === H_USER && pHash === H_PASS) {
+            if (CryptoJS.SHA256(u).toString() === H_USER && CryptoJS.SHA256(p).toString() === H_PASS) {
                 document.body.classList.add('admin-active');
-                document.getElementById('adminInputs').style.display = 'flex';
                 renderStaffUI();
-            } else {
-                alert("მონაცემები არასწორია!");
-            }
+            } else { alert("შეცდომა!"); }
         }
     }
-
-    let staff = JSON.parse(localStorage.getItem('savedStaffContacts')) || [];
 
     function addStaff() {
         const n = document.getElementById('staffName'), p = document.getElementById('staffPhone');
         if(n.value.trim()) {
-            staff.push({ name: n.value.trim(), phone: p.value.trim() || "" });
+            staff.push({ name: n.value.trim(), phone: p.value.trim() || "---" });
             staff.sort((a, b) => a.name.localeCompare(b.name, 'ka'));
             localStorage.setItem('savedStaffContacts', JSON.stringify(staff));
             n.value = ""; p.value = ""; renderStaffUI();
@@ -109,8 +124,9 @@
 
     function renderStaffUI() {
         document.getElementById('staffListUI').innerHTML = staff.map((s, i) => `
-            <div style="background:rgba(255,255,255,0.1); padding:8px; margin-bottom:5px; display:flex; justify-content:space-between; font-size:12px;">
-                ${s.name} <span onclick="removeStaff(${i})" style="color:red; cursor:pointer;">×</span>
+            <div class="staff-item">
+                <span>${s.name} <small>(${s.phone})</small></span>
+                <span class="remove-btn" onclick="removeStaff(${i})">×</span>
             </div>`).join('');
     }
 
@@ -121,12 +137,21 @@
     }
 
     function updateUI() {
-        const title = document.getElementById('topTitleInput').value || "სამუშაო განრიგი";
-        const phones = document.getElementById('topPhoneInput').value;
-        document.getElementById('displayTitle').innerText = title;
+        settings.title = document.getElementById('topTitleInput').value || "სამუშაო განრიგი";
+        settings.phones = document.getElementById('topPhoneInput').value;
+        document.getElementById('displayTitle').innerText = settings.title;
         const area = document.getElementById('displayHeaderPhone');
-        area.innerHTML = phones.split(/[, ]+/).filter(x => x).map(p => `<a href="tel:${p}" style="display:inline-block; color:white; background:#8b0000; text-decoration:none; padding:8px 12px; border-radius:20px; margin:3px; font-size:13px;">📞 ${p}</a>`).join('');
+        area.innerHTML = settings.phones.split(/[, ]+/).filter(x => x).map(p => 
+            `<a href="tel:${p}" style="display:inline-block; color:white; background:var(--dark-red); text-decoration:none; padding:8px 15px; border-radius:20px; margin:4px; font-weight:bold; font-size:13px;">📞 ${p}</a>`
+        ).join('');
+        saveSettings();
         syncCode();
+    }
+
+    function saveSettings() {
+        settings.startMonth = document.getElementById('startMonth').value;
+        settings.endMonth = document.getElementById('endMonth').value;
+        localStorage.setItem('ucha_settings', JSON.stringify(settings));
     }
 
     function generateNew() {
@@ -135,45 +160,51 @@
         if(!s || !e || staff.length === 0) return alert("შეავსეთ მონაცემები!");
 
         let cur = new Date(Date.UTC(s.split('-')[0], s.split('-')[1]-1, 1));
-        const end = new Date(Date.UTC(e.split('-')[0], e.split('-')[1], 0));
-        let html = "";
-        let idx = 0;
+        const endLimit = new Date(Date.UTC(e.split('-')[0], e.split('-')[1], 0));
+        let html = ""; let idx = 0;
         const months = ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოებერი", "დეკემბერი"];
 
-        while(cur <= end) {
+        while(cur <= endLimit) {
             if(cur.getUTCDate() === 1) {
                 if(html !== "") html += "</tbody></table>";
-                html += `<h3 style="color:#8b0000; background:#f1f4f8; padding:10px">${months[cur.getUTCMonth()]} ${cur.getUTCFullYear()}</h3>
-                         <table border="1" style="width:100%; border-collapse:collapse;"><thead><tr><th>დღე</th><th>დრო</th><th>მორიგე</th></tr></thead><tbody>`;
+                html += `<h3 style="color:var(--dark-red); background:#f1f4f8; padding:12px; margin-top:25px; border-radius:5px;">${months[cur.getUTCMonth()]} ${cur.getUTCFullYear()}</h3>
+                         <table><thead><tr><th>რიცხვი</th><th>დრო</th><th>მორიგე</th></tr></thead><tbody>`;
             }
-            const isW = cur.getUTCDay() === 0 || cur.getUTCDay() === 6;
+            const isW = (cur.getUTCDay() === 0 || cur.getUTCDay() === 6);
             const p = staff[idx % staff.length];
-            html += `<tr class="${isW?'weekend':''}">
-                <td><b>${cur.getUTCDate()}</b></td>
-                <td>${isW?'08:00-03:00':'18:00-03:00'}</td>
-                <td><b>${p.name}</b><br><small>${p.phone}</small></td></tr>`;
-            idx++;
-            cur.setUTCDate(cur.getUTCDate() + 1);
+            html += `<tr class="${isW?'weekend':''}"><td><b>${cur.getUTCDate()}</b></td><td><small>${isW?'08:00-03:00':'18:00-03:00'}</small></td><td><b>${p.name}</b><br><small>📞 ${p.phone}</small></td></tr>`;
+            idx++; cur.setUTCDate(cur.getUTCDate() + 1);
         }
-        document.getElementById('scheduleContainer').innerHTML = html + "</tbody></table>";
+        const finalTable = html + "</tbody></table>";
+        document.getElementById('scheduleContainer').innerHTML = finalTable;
+        settings.lastSchedule = finalTable;
+        saveSettings();
         syncCode();
     }
 
     function syncCode() {
         const title = document.getElementById('displayTitle').innerText;
         const phones = document.getElementById('displayHeaderPhone').innerHTML;
-        const content = document.getElementById('scheduleContainer').innerHTML;
-        const finalHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>body{font-family:sans-serif; padding:15px;} .weekend{background:#fff5f5; color:red;} table{width:100%; border-collapse:collapse;} td,th{padding:10px; border:1px solid #ddd;}</style>
-        </head><body><h2 style="text-align:center; color:#8b0000;">${title}</h2><div style="text-align:center">${phones}</div>${content}</body></html>`;
-        document.getElementById('codeOutput').value = finalHTML;
+        const table = document.getElementById('scheduleContainer').innerHTML;
+        const style = `<style>body{font-family:sans-serif; background:#f4f4f4; padding:15px; margin:0;} .t{color:#8b0000; text-align:center; font-size:24px; font-weight:bold; margin-bottom:10px;} .p-cont{text-align:center; margin-bottom:20px;} table{width:100%; border-collapse:collapse; background:white; margin-bottom:20px;} th,td{border:1px solid #ddd; padding:12px; text-align:left;} .weekend{background:#fff5f5; color:#ef233c;} a{color:#4361ee; text-decoration:none; font-weight:bold;} @media (max-width: 600px) { table, thead, tbody, th, td, tr { display: block; } thead tr { position: absolute; top: -9999px; } tr { border: 1px solid #ccc; margin-bottom: 12px; border-radius: 8px; background: white; overflow:hidden;} td { border: none; position: relative; padding-left: 45%; border-bottom: 1px solid #eee; min-height: 40px; display: flex; align-items: center; } td:before { position: absolute; left: 10px; width: 40%; font-weight: bold; color: #666; font-size: 13px; } td:nth-of-type(1):before { content: "რიცხვი:"; } td:nth-of-type(2):before { content: "დრო:"; } td:nth-of-type(3):before { content: "მორიგე:"; } }</style>`;
+        document.getElementById('codeOutput').value = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${style}</head><body><div class="t">${title}</div><div class="p-cont">${phones}</div>${table}</body></html>`;
     }
 
     function copyHTML() {
         document.getElementById("codeOutput").select();
         document.execCommand("copy");
-        alert("კოდი დაკოპირდა!");
+        alert("დაკოპირდა!");
     }
+
+    window.onload = () => {
+        // მონაცემების აღდგენა
+        document.getElementById('topTitleInput').value = settings.title;
+        document.getElementById('topPhoneInput').value = settings.phones;
+        document.getElementById('startMonth').value = settings.startMonth;
+        document.getElementById('endMonth').value = settings.endMonth;
+        document.getElementById('scheduleContainer').innerHTML = settings.lastSchedule || '<p style="text-align:center; color:#999; padding:50px;">გაიარეთ ავტორიზაცია სამართავად.</p>';
+        updateUI();
+    };
 </script>
 </body>
 </html>
