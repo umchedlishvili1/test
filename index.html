@@ -1,134 +1,129 @@
-<!DOCTYPE html><html><head>
-            <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-            body{font-family:sans-serif; background:#f4f4f4; padding:15px; margin:0;}
-            .t{color:#8b0000; text-align:center; font-size:24px; font-weight:bold; margin-bottom:15px;}
-            .p-cont{text-align:center; margin-bottom:20px;}
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
+            body{font-family:sans-serif; background:#f4f4f4; padding:15px;}
+            .t{color:#8b0000; text-align:center; font-size:24px; font-weight:bold;}
+            .p-cont{text-align:center; margin:20px 0;}
             table{width:100%; border-collapse:collapse; background:white; margin-bottom:20px;}
             th,td{border:1px solid #ddd; padding:12px; text-align:left;}
             .weekend{background:#fff5f5; color:#ef233c;}
             a{color:#4361ee; text-decoration:none; font-weight:bold;}
             @media (max-width: 600px) {
                 table, thead, tbody, th, td, tr { display: block; }
-                thead tr { position: absolute; top: -9999px; left: -9999px; }
-                tr { border: 1px solid #ccc; margin-bottom: 12px; border-radius: 8px; background: white; }
-                td { border: none; position: relative; padding-left: 50%; border-bottom: 1px solid #eee; min-height: 40px; }
-                td:before { position: absolute; left: 10px; width: 45%; font-weight: bold; color: #666; }
-                td:nth-of-type(1):before { content: "რიცხვი:"; }
-                td:nth-of-type(2):before { content: "დრო:"; }
-                td:nth-of-type(3):before { content: "მორიგე:"; }
+                thead tr { position: absolute; top: -9999px; }
+                tr { border: 1px solid #ccc; margin-bottom: 12px; border-radius: 8px; background: white; overflow:hidden;}
+                td { border: none; position: relative; padding-left: 45%; border-bottom: 1px solid #eee; min-height: 40px; display: flex; align-items: center; }
+                td:before { position: absolute; left: 10px; width: 40%; font-weight: bold; color: #666; font-size: 13px; content: attr(data-label); }
             }
-        </style>
-            </head><body><div class="t">სამუშაო განრიგი</div><div class="p-cont"></div><h3 style="color:#8b0000; background:#f1f4f8; padding:10px">თებერვალი 2026</h3>
-                         <table><thead><tr><th style="width:15%">დღე</th><th style="width:25%">დრო</th><th>მორიგე</th></tr></thead><tbody><tr class="weekend">
-                <td><b>1</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>გიორგი ტარყაშვილი</b>
-                    <a href="tel:577 38 52 50" class="phone-display">📞 577 38 52 50</a></td></tr><tr class="">
-                <td><b>2</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ლომიძე</b>
-                    <a href="tel:555 55 82 22" class="phone-display">📞 555 55 82 22</a></td></tr><tr class="">
-                <td><b>3</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>ვასილ გოგალაძე</b>
-                    <a href="tel:577 35 55 56" class="phone-display">📞 577 35 55 56</a></td></tr><tr class="">
-                <td><b>4</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>შალვა გაგნიძე</b>
-                    <a href="tel:551 77 02 00" class="phone-display">📞 551 77 02 00</a></td></tr><tr class="">
-                <td><b>5</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>ბექა ტალახაძე</b>
-                    <a href="tel:551 98 27 72" class="phone-display">📞 551 98 27 72</a></td></tr><tr class="">
-                <td><b>6</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ბოჭორიშვილი</b>
-                    <a href="tel:577 01 83 12" class="phone-display">📞 577 01 83 12</a></td></tr><tr class="weekend">
-                <td><b>7</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>ალიკა ყალიჩავა</b>
-                    <a href="tel:591 90 35 90" class="phone-display">📞 591 90 35 90</a></td></tr><tr class="weekend">
-                <td><b>8</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>გუგა ბალანჩივაძე</b>
-                    <a href="tel:577 97 87 92" class="phone-display">📞 577 97 87 92</a></td></tr><tr class="">
-                <td><b>9</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ტარყაშვილი</b>
-                    <a href="tel:577 38 52 50" class="phone-display">📞 577 38 52 50</a></td></tr><tr class="">
-                <td><b>10</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ლომიძე</b>
-                    <a href="tel:555 55 82 22" class="phone-display">📞 555 55 82 22</a></td></tr><tr class="">
-                <td><b>11</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>ვასილ გოგალაძე</b>
-                    <a href="tel:577 35 55 56" class="phone-display">📞 577 35 55 56</a></td></tr><tr class="">
-                <td><b>12</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>შალვა გაგნიძე</b>
-                    <a href="tel:551 77 02 00" class="phone-display">📞 551 77 02 00</a></td></tr><tr class="">
-                <td><b>13</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>ბექა ტალახაძე</b>
-                    <a href="tel:551 98 27 72" class="phone-display">📞 551 98 27 72</a></td></tr><tr class="weekend">
-                <td><b>14</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>გიორგი ბოჭორიშვილი</b>
-                    <a href="tel:577 01 83 12" class="phone-display">📞 577 01 83 12</a></td></tr><tr class="weekend">
-                <td><b>15</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>ალიკა ყალიჩავა</b>
-                    <a href="tel:591 90 35 90" class="phone-display">📞 591 90 35 90</a></td></tr><tr class="">
-                <td><b>16</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გუგა ბალანჩივაძე</b>
-                    <a href="tel:577 97 87 92" class="phone-display">📞 577 97 87 92</a></td></tr><tr class="">
-                <td><b>17</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ტარყაშვილი</b>
-                    <a href="tel:577 38 52 50" class="phone-display">📞 577 38 52 50</a></td></tr><tr class="">
-                <td><b>18</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ლომიძე</b>
-                    <a href="tel:555 55 82 22" class="phone-display">📞 555 55 82 22</a></td></tr><tr class="">
-                <td><b>19</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>ვასილ გოგალაძე</b>
-                    <a href="tel:577 35 55 56" class="phone-display">📞 577 35 55 56</a></td></tr><tr class="">
-                <td><b>20</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>შალვა გაგნიძე</b>
-                    <a href="tel:551 77 02 00" class="phone-display">📞 551 77 02 00</a></td></tr><tr class="weekend">
-                <td><b>21</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>ბექა ტალახაძე</b>
-                    <a href="tel:551 98 27 72" class="phone-display">📞 551 98 27 72</a></td></tr><tr class="weekend">
-                <td><b>22</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>გიორგი ბოჭორიშვილი</b>
-                    <a href="tel:577 01 83 12" class="phone-display">📞 577 01 83 12</a></td></tr><tr class="">
-                <td><b>23</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>ალიკა ყალიჩავა</b>
-                    <a href="tel:591 90 35 90" class="phone-display">📞 591 90 35 90</a></td></tr><tr class="">
-                <td><b>24</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გუგა ბალანჩივაძე</b>
-                    <a href="tel:577 97 87 92" class="phone-display">📞 577 97 87 92</a></td></tr><tr class="">
-                <td><b>25</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ტარყაშვილი</b>
-                    <a href="tel:577 38 52 50" class="phone-display">📞 577 38 52 50</a></td></tr><tr class="">
-                <td><b>26</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>გიორგი ლომიძე</b>
-                    <a href="tel:555 55 82 22" class="phone-display">📞 555 55 82 22</a></td></tr><tr class="">
-                <td><b>27</b></td>
-                <td><small>18:00-03:00</small></td>
-                <td><b>ვასილ გოგალაძე</b>
-                    <a href="tel:577 35 55 56" class="phone-display">📞 577 35 55 56</a></td></tr><tr class="weekend">
-                <td><b>28</b></td>
-                <td><small>08:00-03:00</small></td>
-                <td><b>შალვა გაგნიძე</b>
-                    <a href="tel:551 77 02 00" class="phone-display">📞 551 77 02 00</a></td></tr></tbody></table></body></html>
+        </style></head><body><div class="t">სამუშაო განრიგი</div><div class="p-cont"></div><h3 style="color:var(--dark-red); background:#f1f4f8; padding:12px; margin-top:20px; border-radius:5px;">თებერვალი 2026</h3>
+                         <table><thead><tr><th>რიცხვი</th><th>დრო</th><th>მორიგე</th></tr></thead><tbody><tr class="weekend">
+                <td data-label="რიცხვი"><b>1</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ტარყაშვილი</b><br><small>📞 577 38 52 50</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>2</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ლომიძე</b><br><small>📞 555 55 82 22</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>3</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ვასილ გოგალაძე</b><br><small>📞 577 35 55 56</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>4</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>შალვა გაგნიძე</b><br><small>📞 551 77 02 00</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>5</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ბექა ტალახაძე</b><br><small>📞 551 98 27 72</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>6</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ბოჭორიშვილი</b><br><small>📞 577 01 83 12</small></td>
+            </tr><tr class="weekend">
+                <td data-label="რიცხვი"><b>7</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ალიკა ყალიჩავა</b><br><small>📞 591 90 35 90</small></td>
+            </tr><tr class="weekend">
+                <td data-label="რიცხვი"><b>8</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გუგა ბალანჩივაძე</b><br><small>📞 577 97 87 92</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>9</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ტარყაშვილი</b><br><small>📞 577 38 52 50</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>10</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ლომიძე</b><br><small>📞 555 55 82 22</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>11</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ვასილ გოგალაძე</b><br><small>📞 577 35 55 56</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>12</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>შალვა გაგნიძე</b><br><small>📞 551 77 02 00</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>13</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ბექა ტალახაძე</b><br><small>📞 551 98 27 72</small></td>
+            </tr><tr class="weekend">
+                <td data-label="რიცხვი"><b>14</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ბოჭორიშვილი</b><br><small>📞 577 01 83 12</small></td>
+            </tr><tr class="weekend">
+                <td data-label="რიცხვი"><b>15</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ალიკა ყალიჩავა</b><br><small>📞 591 90 35 90</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>16</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გუგა ბალანჩივაძე</b><br><small>📞 577 97 87 92</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>17</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ტარყაშვილი</b><br><small>📞 577 38 52 50</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>18</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ლომიძე</b><br><small>📞 555 55 82 22</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>19</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ვასილ გოგალაძე</b><br><small>📞 577 35 55 56</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>20</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>შალვა გაგნიძე</b><br><small>📞 551 77 02 00</small></td>
+            </tr><tr class="weekend">
+                <td data-label="რიცხვი"><b>21</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ბექა ტალახაძე</b><br><small>📞 551 98 27 72</small></td>
+            </tr><tr class="weekend">
+                <td data-label="რიცხვი"><b>22</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ბოჭორიშვილი</b><br><small>📞 577 01 83 12</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>23</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ალიკა ყალიჩავა</b><br><small>📞 591 90 35 90</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>24</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გუგა ბალანჩივაძე</b><br><small>📞 577 97 87 92</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>25</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ტარყაშვილი</b><br><small>📞 577 38 52 50</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>26</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>გიორგი ლომიძე</b><br><small>📞 555 55 82 22</small></td>
+            </tr><tr class="">
+                <td data-label="რიცხვი"><b>27</b></td>
+                <td data-label="დრო"><small>18:00-03:00</small></td>
+                <td data-label="მორიგე"><b>ვასილ გოგალაძე</b><br><small>📞 577 35 55 56</small></td>
+            </tr><tr class="weekend">
+                <td data-label="რიცხვი"><b>28</b></td>
+                <td data-label="დრო"><small>08:00-03:00</small></td>
+                <td data-label="მორიგე"><b>შალვა გაგნიძე</b><br><small>📞 551 77 02 00</small></td>
+            </tr></tbody></table></body></html>
